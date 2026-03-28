@@ -6,12 +6,11 @@ import {Link, useNavigate} from "react-router";
 import {useEffect, useState} from "react";
 
 export function meta({}: Route.MetaArgs) {
-
   return [
-    { title: "RIS- Resume Intelligence System" },
-    { name: "description", content: "With the help of Ai it will transform your resume. apply endlessly" },
+    { title: "Resumind" },
+    { name: "description", content: "Smart feedback for your dream job!" },
   ];
-} 
+}
 
 export default function Home() {
   const { auth, kv } = usePuterStore();
@@ -29,9 +28,20 @@ export default function Home() {
 
       const resumes = (await kv.list('resume:*', true)) as KVItem[];
 
-      const parsedResumes = resumes?.map((resume) => (
-          JSON.parse(resume.value) as Resume
-      ))
+      const parsedResumes = resumes?.map((resume) => {
+  const data = JSON.parse(resume.value);
+
+  const raw = data.feedback;
+
+  if (!raw || !raw.analysis) return data;
+
+  return {
+    ...data,
+    feedback: {
+      overallScore: raw.rating ?? 0
+    }
+  };
+});
 
       setResumes(parsedResumes || []);
       setLoadingResumes(false);
@@ -54,7 +64,7 @@ export default function Home() {
       </div>
       {loadingResumes && (
           <div className="flex flex-col items-center justify-center">
-            <img src="/images/resume-scan-2.gif" className="w-50" />
+            <img src="/images/resume-scan-2.gif" className="w-[200px]" />
           </div>
       )}
 
