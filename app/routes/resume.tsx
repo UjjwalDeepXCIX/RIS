@@ -43,6 +43,12 @@ const Resume = () => {
             setImageUrl(imageUrl);
 
             const raw = data.feedback;
+
+            if (!raw) {
+            console.error("Missing feedback:", raw);
+            return;
+            }
+
             const mapSection = (section: any) => ({
             score: section?.score ?? 0,
             tips: (section?.tips || []).map((tip: string) => ({
@@ -51,6 +57,7 @@ const Resume = () => {
             })),
             });
 
+            // compute overall score
             const sections = Object.values(raw);
 
             const overallScore = sections.length
@@ -63,15 +70,14 @@ const Resume = () => {
             const normalizedFeedback: Feedback = {
             overallScore,
 
-            ATS: mapSection(raw["Contact Information"]),
-            toneAndStyle: mapSection(raw["Professional Summary"]),
-            content: mapSection(raw["Work Experience"]),
-            structure: mapSection(raw["Education"]),
-            skills: mapSection(raw["Skills"]),
-            };
+            ATS: mapSection(raw.summary),
+            toneAndStyle: mapSection(raw.summary),
+            content: mapSection(raw.experience),
+            structure: mapSection(raw.education),
+            skills: mapSection(raw.skills),
+};
 
             setFeedback(normalizedFeedback);
-
             if (!raw) {
                 console.error("Missing feedback:", raw);
                 return;
