@@ -14,34 +14,26 @@ const Navbar = () => {
     }
   };
 
-  return (
-    <nav className="navbar flex items-center justify-between">
-      
-      {/* Left */}
+   return (
+    <nav className="navbar">
+
+      {/* Logo */}
       <Link to="/">
-        <p className="text-2xl font-bold text-gradient">RIS</p>
+        <p className="text-xl font-semibold text-gradient">RIS</p>
       </Link>
 
-      {/* Right */}
-      <div className="flex items-center gap-4">
-        
-        <Link to="/upload" className="primary-button w-fit">
-          Upload Resume
+      {/* Actions */}
+      <div className="flex items-center gap-3">
+
+        <Link to="/upload" className="nav-button">
+          Upload
         </Link>
 
-        {/* Wipe Button */}
-        <Link
-          to="/wipe"
-          className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
-        >
+        <Link to="/wipe" className="nav-button nav-button-danger">
           Wipe
         </Link>
 
-        {/* Logout Button */}
-        <button
-          onClick={handleLogout}
-          className="bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-black"
-        >
+        <button onClick={handleLogout} className="nav-button">
           Logout
         </button>
 

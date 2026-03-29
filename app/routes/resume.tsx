@@ -43,56 +43,39 @@ const Resume = () => {
             setImageUrl(imageUrl);
 
             const raw = data.feedback;
+            const mapSection = (section: any) => ({
+            score: section?.score ?? 0,
+            tips: (section?.tips || []).map((tip: string) => ({
+                type: "improve",
+                tip,
+            })),
+            });
 
-if (!raw || !raw.analysis) {
-  console.error("Invalid feedback structure:", raw);
-  return;
-}
+            const sections = Object.values(raw);
 
-const ai = raw.analysis;
+            const overallScore = sections.length
+            ? Math.round(
+                sections.reduce((acc: number, sec: any) => acc + (sec.score || 0), 0) /
+                sections.length
+                )
+            : 0;
 
-const mapToTips = (section: any) => {
-  if (!section) return [];
+            const normalizedFeedback: Feedback = {
+            overallScore,
 
-  return [
-    {
-      type: "improve",
-      tip: section.strengths || "",
-      explanation: section.improvements || "",
-    }
-  ];
-};
-
-const normalizedFeedback: Feedback = {
-  overallScore: raw.rating ?? 0,
-
-  ATS: {
-    score: raw.rating ?? 0,
-    tips: mapToTips(ai.keywords),
-  },
-
-  toneAndStyle: {
-    score: raw.rating ?? 0,
-    tips: mapToTips(ai.formatting),
-  },
-
-  content: {
-    score: raw.rating ?? 0,
-    tips: mapToTips(ai.experience),
-  },
-
-  structure: {
-    score: raw.rating ?? 0,
-    tips: mapToTips(ai.education),
-  },
-
-  skills: {
-    score: raw.rating ?? 0,
-    tips: mapToTips(ai.skills),
-  },
-};
+            ATS: mapSection(raw["Contact Information"]),
+            toneAndStyle: mapSection(raw["Professional Summary"]),
+            content: mapSection(raw["Work Experience"]),
+            structure: mapSection(raw["Education"]),
+            skills: mapSection(raw["Skills"]),
+            };
 
             setFeedback(normalizedFeedback);
+
+            if (!raw) {
+                console.error("Missing feedback:", raw);
+                return;
+            }
             console.log({resumeUrl, imageUrl, feedback: data.feedback });
         }
 
