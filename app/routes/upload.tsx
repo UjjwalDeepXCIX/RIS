@@ -5,7 +5,7 @@ import {usePuterStore} from "~/lib/puter";
 import {useNavigate} from "react-router";
 import {convertPdfToImage} from "~/lib/pdf2img";
 import {generateUUID} from "~/lib/utils";
-import {prepareInstructions} from "../../constants/index";
+import { AIResponseFormat, prepareInstructions } from "../../constants/index";;
 
 const Upload = () => {
     const { auth, isLoading, fs, ai, kv } = usePuterStore();
@@ -72,10 +72,11 @@ const handleAnalyze = async ({ companyName, jobTitle, jobDescription, file }: { 
 
         setStatusText('Analyzing...');
         console.log("[Upload] Sending to AI...");
-
+        
+        const prompt = prepareInstructions({jobTitle,jobDescription, AIResponseFormat,});
         const feedback = await ai.feedback(
             uploadedFile.path,
-            prepareInstructions({ jobTitle, jobDescription })
+            prepareInstructions(prompt)
         )
 
         if (!feedback) {
@@ -88,12 +89,24 @@ const handleAnalyze = async ({ companyName, jobTitle, jobDescription, file }: { 
         const feedbackText = typeof feedback.message.content === 'string'
             ? feedback.message.content
             : feedback.message.content[0].text;
+        let parsed;
+        try {
+            parsed = JSON.parse(feedbackText);
+        } 
+        catch (err) 
+        {
+            console.error("AI returned invalid JSON:", feedbackText);
+            return;
+        }
 
         console.log("[Upload] Extracted feedback text:", feedbackText);
 
         data.feedback = JSON.parse(feedbackText);
 
-        await kv.set(`resume:${uuid}`, JSON.stringify(data));
+        await kv.set(`resume:${uuid}`, JSON.stringify({
+            ...data,
+            feedback: parsed
+        }));
         console.log("[Upload] Final data saved to KV");
 
         setStatusText('Analysis complete, redirecting...');
@@ -132,7 +145,7 @@ const handleAnalyze = async ({ companyName, jobTitle, jobDescription, file }: { 
     handleAnalyze({ companyName, jobTitle, jobDescription, file });
 }
     return (
-        <main className="bg-[url('/images/bg-main.svg')] bg-cover">
+        <main className="bg-[url('/images/coolbackgrounds-gradient-astral.png')] bg-cover">
             <Navbar />
 
             <section className="main-section">
