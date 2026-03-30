@@ -48,7 +48,7 @@ const CategoryHeader = ({
 }) => {
   return (
       <div className="flex flex-row gap-4 items-center py-2">
-        <p className="text-2xl font-semibold">{title}</p>
+        <p className="text-lg font-semibold text-white tracking-wide"> {title} </p><p className="text-2xl font-semibold">{title}</p>
         <ScoreBadge score={categoryScore} />
       </div>
   );
@@ -60,49 +60,40 @@ const CategoryContent = ({
   tips: { type: "good" | "improve"; tip: string; explanation: string }[];
 }) => {
   return (
-      <div className="flex flex-col gap-4 items-center w-full">
-        <div className="bg-gray-50 w-full rounded-lg px-5 py-4 grid grid-cols-2 gap-4">
-          {tips.map((tip, index) => (
-              <div className="flex flex-row gap-2 items-center" key={index}>
-                <img
-                    src={
-                      tip.type === "good" ? "/icons/check.svg" : "/icons/warning.svg"
-                    }
-                    alt="score"
-                    className="size-5"
-                />
-                <p className="text-xl text-gray-500 ">{tip.tip}</p>
-              </div>
-          ))}
-        </div>
+        
         <div className="flex flex-col gap-4 w-full">
-          {tips.map((tip, index) => (
-              <div
-                  key={index + tip.tip}
-                  className={cn(
-                      "flex flex-col gap-2 rounded-2xl p-4",
-                      tip.type === "good"
-                          ? "bg-green-50 border border-green-200 text-green-700"
-                          : "bg-yellow-50 border border-yellow-200 text-yellow-700"
-                  )}
-              >
-                <div className="flex flex-row gap-2 items-center">
-                  <img
-                      src={
-                        tip.type === "good"
-                            ? "/icons/check.svg"
-                            : "/icons/warning.svg"
-                      }
-                      alt="score"
-                      className="size-5"
-                  />
-                  <p className="text-xl font-semibold">{tip.tip}</p>
-                </div>
-                <p>{tip.explanation}</p>
-              </div>
-          ))}
-        </div>
+  {tips.map((tip, index) => (
+    <div
+      key={index + tip.tip}
+      className={cn(
+        "flex flex-col gap-3 rounded-2xl p-4 transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_10px_40px_rgba(0,0,0,0.6)]",
+        tip.type === "good"
+          ? "bg-emerald-500/10 border border-emerald-400/20 text-emerald-300"
+          : "bg-amber-500/10 border border-amber-400/20 text-amber-300"
+      )}
+    >
+      <div className="flex flex-row gap-2 items-center">
+        <img
+          src={
+            tip.type === "good"
+              ? "/icons/check.svg"
+              : "/icons/warning.svg"
+          }
+          className="size-5 opacity-80"
+        />
+        <p className="text-sm font-semibold">{tip.tip}</p>
       </div>
+
+      {/* OPTIONAL: only show explanation if exists */}
+      {tip.explanation && (
+        <p className="text-xs text-gray-400 leading-relaxed">
+          {tip.explanation}
+        </p>
+      )}
+    </div>
+  ))}
+</div>
+
   );
 };
 
@@ -110,7 +101,7 @@ const Details = ({ feedback }: { feedback: Feedback }) => {
   return (
       <div className="flex flex-col gap-4 w-full">
         <Accordion>
-          <AccordionItem id="tone-style">
+          <AccordionItem id="tone-style" className="rounded-2xl backdrop-blur-xl bg-white/5 border border-white/10 overflow-hidden">
             <AccordionHeader itemId="tone-style">
               <CategoryHeader
                   title="Tone & Style"

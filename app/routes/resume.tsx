@@ -4,6 +4,7 @@ import {usePuterStore} from "~/lib/puter";
 import Summary from "~/components/Summary";
 import ATS from "~/components/ATS";
 import Details from "~/components/Details";
+import Navbar from "~/components/Navbar";
 
 export const meta = () => ([
     { title: 'Resumind | Review ' },
@@ -70,7 +71,7 @@ const Resume = () => {
             const normalizedFeedback: Feedback = {
             overallScore,
 
-            ATS: mapSection(raw.summary),
+            ATS: mapSection(raw.formatting),
             toneAndStyle: mapSection(raw.summary),
             content: mapSection(raw.experience),
             structure: mapSection(raw.education),
@@ -90,16 +91,29 @@ const Resume = () => {
 
     return (
         <main className="!pt-0">
-            <nav className="resume-nav">
-                <Link to="/" className="back-button">
-                    <img src="/icons/back.svg" alt="logo" className="w-2.5 h-2.5" />
-                    <span className="text-gray-800 text-sm font-semibold">Back to Homepage</span>
+            <nav className="w-full flex justify-center pt-4 pb-2 sticky top-0 z-50">
+            <div className="flex items-center justify-between w-full max-w-[1100px] px-4 py-2 rounded-full backdrop-blur-xl bg-white/5 border border-white/10 shadow-[0_10px_40px_rgba(0,0,0,0.6)]">
+
+                <Link
+                to="/"
+                className="flex items-center gap-2 px-4 py-2 rounded-full text-sm text-gray-300 hover:text-white transition-all duration-300 hover:bg-white/10 hover:scale-[1.03] active:scale-[0.97]">
+                <img src="/icons/back.svg" alt="back" className="w-3 h-3 opacity-80" />
+                Back
                 </Link>
+
+                <div className="text-sm text-gray-400">
+                Resume Analysis
+                </div>
+
+                {/* spacer for symmetry */}
+                <div className="w-[60px]" />
+
+            </div>
             </nav>
-            <div className="flex flex-row w-full max-lg:flex-col-reverse">
-                <section className="feedback-section bg-[url('/images/bg-small.svg') bg-cover h-[100vh] sticky top-0 items-center justify-center">
+            <div className="flex flex-row w-full max-lg:flex-col-reverse gap-6 px-6">
+                <section className="feedback-section bg-[url('/images/auth.png') bg-cover h-[100vh] sticky top-0 items-center justify-center">
                     {imageUrl && resumeUrl && (
-                        <div className="animate-in fade-in duration-1000 gradient-border max-sm:m-0 h-[90%] max-wxl:h-fit w-fit">
+                        <div className="animate-in fade-in duration-1000 p-2 shadow-[0_20px_80px_rgba(0,0,0,0.7)] backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl  gradient-border max-sm:m-0 h-[90%] max-wxl:h-fit w-fit">
                             <a href={resumeUrl} target="_blank" rel="noopener noreferrer">
                                 <img
                                     src={imageUrl}
@@ -111,7 +125,15 @@ const Resume = () => {
                     )}
                 </section>
                 <section className="feedback-section">
-                    <h2 className="text-4xl !text-black font-bold">Resume Review</h2>
+                    <div className="flex flex-col gap-1 mb-4">
+                        <h2 className="text-3xl md:text-4xl font-semibold tracking-tight bg-linear-to-r from-indigo-300 via-blue-300 to-emerald-300 bg-clip-text text-transparent">
+                        Resume Analysis
+                        </h2>
+
+                        <p className="text-sm text-gray-400">
+                            AI-powered insights to improve your resume performance
+                        </p>
+                        </div>
                     {feedback ? (
                         <div className="flex flex-col gap-8 animate-in fade-in duration-1000">
                             <Summary feedback={feedback} />

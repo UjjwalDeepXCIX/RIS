@@ -2,206 +2,393 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* ================= THEME ================= */
 @theme {
-  --font-sans: "Mona Sans", ui-sans-serif, system-ui, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-sans: "Mona Sans", ui-sans-serif, system-ui, sans-serif;
 
-  /* Adjusted for dark UI */
   --color-dark-200: #9CA3AF;
 
-  /* Keep same vars but slightly tuned for dark glass */
   --color-light-blue-100: rgba(165, 180, 252, 0.08);
   --color-light-blue-200: rgba(165, 180, 252, 0.15);
 
-  /* Badge backgrounds (glass style) */
   --color-badge-green: rgba(34,197,94,0.15);
   --color-badge-red: rgba(239,68,68,0.15);
   --color-badge-yellow: rgba(234,179,8,0.15);
 
-  /* Badge text (lighter for dark bg) */
   --color-badge-green-text: #86EFAC;
   --color-badge-red-text: #FCA5A5;
   --color-badge-yellow-text: #FDE68A;
 }
 
+/* ================= GLOBAL ================= */
+
 html,
 body {
-  @apply bg-white;
+  @apply text-white;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(34,197,94,0.08), transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(99,102,241,0.08), transparent 40%),
+    linear-gradient(180deg, #020617 0%, #020617 100%);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ambient glow */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(16,185,129,0.05), transparent 60%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* subtle tech grid */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+  z-index: -1;
 }
 
 main {
-  @apply min-h-screen pt-10;
+  @apply min-h-screen pt-12;
 }
+
+/* ================= TYPOGRAPHY ================= */
+
 h1 {
-  @apply max-sm:text-[3rem] text-6xl text-gradient leading-tight xl:tracking-[-2px] font-semibold;
+  @apply text-5xl md:text-6xl font-semibold leading-tight tracking-tight;
+  background: linear-gradient(to right, #C4B5FD, #60A5FA, #34D399);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 h2 {
-  color: #9CA3AF; /* softer than pure white */
+  @apply text-gray-400;
 }
+
 label {
   @apply text-dark-200;
 }
+
+/* ================= INPUT ================= */
+
 input,
 textarea {
-  @apply w-full p-4 rounded-xl focus:outline-none text-white;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255,255,255,0.08);
-  backdrop-filter: blur(6px);
-} 
+  @apply w-full p-4 rounded-xl text-white;
+
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  backdrop-filter: blur(12px);
+
+  transition: all 0.2s ease;
+}
+
+input:focus,
+textarea:focus {
+  border: 1px solid rgba(99,102,241,0.6);
+  box-shadow: 0 0 0 2px rgba(99,102,241,0.2);
+  outline: none;
+}
 
 form {
   @apply flex flex-col items-start gap-8 w-full;
 }
 
-@layer components {.text-gradient {
-  @apply bg-clip-text text-transparent;
-  background: linear-gradient(
-    to right,
-    #C4B5FD,
-    #A5B4FC,
-    #93C5FD
-  );
-}
+/* ================= COMPONENTS ================= */
 
-  .gradient-border {
-    background: linear-gradient(
-      to bottom,
-      var(--color-light-blue-100),
-      var(--color-light-blue-200)
-    );
-    @apply p-2 rounded-xl;
-  }
+@layer components {
 
-  .primary-button {
-  @apply text-white rounded-full px-4 py-2 text-sm;
-  background: linear-gradient(to right, #A5B4FC, #C4B5FD);
-}
-
-.primary-button:hover {
-  background: linear-gradient(to right, #818CF8, #A78BFA);
-}
-  .resume-nav {
-    @apply flex justify-between items-center px-4 py-2 border-b border-gray-100;
-  }
-
-  .resume-summary {
-    @apply flex items-center justify-center gap-3 py-2;
-
-    .category {
-      @apply flex items-center justify-between bg-gray-50 rounded-xl px-4 py-3 w-full;
-    }
-  }
-
-  .back-button {
-    @apply flex items-center gap-2 border border-gray-100 rounded-md px-3 py-1;
-  }
-
-  .auth-button {
-    @apply rounded-full py-3 px-6 text-xl font-semibold text-white;
-    background: linear-gradient(to bottom, #a5b4fc, #818cf8);
-  }
-
-  .main-section {
-    @apply flex flex-col items-center gap-6 pt-10 mx-6 pb-5;
-  }
-
-  .page-heading {
-    @apply flex flex-col items-center gap-4 max-w-3xl text-center;
-  }
-
-  .resumes-section {
-    @apply flex flex-wrap gap-5 justify-center w-full max-w-[1400px];
-  }
-
-  .resume-card {
-  @apply flex flex-col gap-5 w-[320px] rounded-xl p-4;
-  background: rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255,255,255,0.08);
-}
-
-  .resume-card-header {
-    @apply flex justify-between items-center gap-2;
-  }
-
-  .feedback-section {
-    @apply flex flex-col gap-6 w-1/2 px-6 max-lg:w-full py-4;
-  }
+/* ---------- NAVBAR ---------- */
 .navbar {
   @apply flex justify-between items-center px-6 py-3 w-full max-w-[1100px] mx-auto rounded-full;
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(12px);
+
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.06);
+
+  box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+}
+
+/* ---------- BUTTONS ---------- */
+.nav-button,
+.primary-button {
+  @apply px-4 py-2 rounded-full text-sm font-medium text-white transition-all duration-300;
+
+  background: linear-gradient(135deg, #6366F1, #22C55E);
+  box-shadow: 0 4px 20px rgba(99,102,241,0.4);
+}
+
+.nav-button:hover,
+.primary-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(99,102,241,0.6);
+}
+
+.nav-button-danger {
+  background: linear-gradient(135deg, #EF4444, #F472B6);
+}
+
+/* ---------- MAIN LAYOUT ---------- */
+.main-section {
+  @apply flex flex-col items-center gap-10 pt-16 px-6 pb-12;
+}
+
+.page-heading {
+  @apply flex flex-col items-center gap-4 max-w-3xl text-center;
+}
+
+.resumes-section {
+  @apply flex flex-wrap gap-6 justify-center w-full max-w-[1400px];
+}
+
+/* ---------- RESUME CARD ---------- */
+.resume-card {
+  @apply flex flex-col gap-5 w-[320px] rounded-2xl p-5 transition-all duration-300;
+
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(255,255,255,0.08);
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.6),
+    inset 0 1px 0 rgba(255,255,255,0.05);
+}
+
+.resume-card:hover {
+  transform: translateY(-6px) scale(1.02);
+  border: 1px solid rgba(165,180,252,0.3);
+  box-shadow:
+    0 20px 60px rgba(0,0,0,0.8),
+    0 0 40px rgba(99,102,241,0.15);
+}
+
+.resume-card-header {
+  @apply flex justify-between items-center;
+}
+
+/* ---------- SUMMARY ---------- */
+.resume-summary {
+  @apply flex items-center justify-center gap-3 py-2;
+}
+
+.category {
+  @apply flex items-center justify-between rounded-xl px-4 py-3 w-full;
+
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+/* ---------- BADGE ---------- */
+.score-badge {
+  @apply flex items-center justify-center py-1 px-2 gap-2 rounded-full;
+}
+
+/* ---------- BACK BUTTON ---------- */
+.back-button {
+  @apply flex items-center gap-2 rounded-md px-3 py-1;
+
+  background: rgba(255,255,255,0.04);
   border: 1px solid rgba(255,255,255,0.08);
 }
-/* Shared button style */
-.nav-button {
-  @apply px-4 py-2 rounded-full text-sm font-medium text-white transition-all duration-200;
-  background: linear-gradient(to right, #A5B4FC, #C4B5FD);
+
+/* ---------- AUTH BUTTON ---------- */
+.auth-button {
+  @apply rounded-full py-3 px-6 text-lg font-semibold text-white;
+
+  background: linear-gradient(135deg, #6366F1, #22C55E);
+  box-shadow: 0 6px 25px rgba(99,102,241,0.5);
 }
 
-/* Hover */
-.nav-button:hover {
-  background: linear-gradient(to right, #818CF8, #A78BFA);
-  transform: translateY(-1px);
+/* ---------- FEEDBACK ---------- */
+.feedback-section {
+  @apply flex flex-col gap-6 w-1/2 px-6 py-4 max-lg:w-full;
 }
 
-/* Danger (wipe) */
-.nav-button-danger {
-  background: linear-gradient(to right, #FCA5A5, #F9A8D4);
+/* ---------- FORM ---------- */
+.form-div {
+  @apply flex flex-col gap-1 w-full;
 }
 
-.nav-button-danger:hover {
-  background: linear-gradient(to right, #F87171, #EC4899);
-}
-  .score-badge {
-    @apply flex items-center justify-center py-1 px-2 gap-2 rounded-full;
-  }
+/* ---------- UPLOADER ---------- */
+.uplader-drag-area {
+  @apply p-6 text-center rounded-xl min-h-[180px];
 
-  .form-div {
-    @apply flex flex-col gap-1 w-full;
-  }
-
-  .uplader-drag-area {
-    @apply p-6 text-center bg-white rounded-xl border border-gray-100 min-h-[180px];
-  }
-
-  .uploader-selected-file {
-    @apply flex items-center justify-between px-3 py-2 bg-gray-50 rounded-xl;
-  }
+  background: rgba(255,255,255,0.03);
+  border: 1px dashed rgba(255,255,255,0.1);
 }
 
-@utility bg-gradient {
-  background: linear-gradient(to bottom, #f0f4ff 60%, #fa7185cc);
+.uploader-selected-file {
+  @apply flex items-center justify-between px-3 py-2 rounded-xl;
+
+  background: rgba(255,255,255,0.04);
 }
+
+}
+
+/* ================= UTILITIES ================= */
 
 @utility text-gradient {
-  @apply bg-clip-text text-transparent bg-gradient-to-r from-[#AB8C95] via-[#000000] to-[#8E97C5];
-}
-
-@utility gradient-hover {
-  @apply bg-gradient-to-b from-light-blue-100 to-light-blue-200;
-}
-
-@utility primary-gradient {
-  background: linear-gradient(to bottom, #8e98ff, #606beb);
-  box-shadow: 0px 74px 21px 0px #6678ef00;
-}
-
-@utility primary-gradient-hover {
-  background: linear-gradient(to bottom, #717dff, #4957eb);
+  @apply bg-clip-text text-transparent;
+  background: linear-gradient(to right, #C4B5FD, #60A5FA, #34D399);
 }
 
 @utility inset-shadow {
-  box-shadow: inset 0 0 12px 0 rgba(36, 99, 235, 0.2);
+  box-shadow: inset 0 0 12px rgba(36, 99, 235, 0.2);
   backdrop-filter: blur(10px);
 }
 
+/* ================= ANIMATIONS ================= */
+
 @keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+/* ================= DYNAMIC LIGHT SYSTEM ================= */
+
+:root {
+  --mouse-x: 50%;
+  --mouse-y: 50%;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(
+    circle at var(--mouse-x) var(--mouse-y),
+    rgba(99,102,241,0.12),
+    transparent 40%
+  );
+  z-index: -1;
+  pointer-events: none;
+  transition: background 0.1s ease;
+}
+
+/* ================= NEURAL WAVE BACKGROUND ================= */
+
+.neural-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  overflow: hidden;
+}
+
+.neural-bg::before {
+  content: "";
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(34,197,94,0.08), transparent 60%);
+  animation: float 18s infinite linear;
+}
+
+.neural-bg::after {
+  content: "";
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(99,102,241,0.08), transparent 60%);
+  animation: floatReverse 22s infinite linear;
+}
+
+@keyframes float {
+  from { transform: translate(-10%, -10%) rotate(0deg); }
+  to { transform: translate(-30%, -30%) rotate(360deg); }
+}
+
+@keyframes floatReverse {
+  from { transform: translate(-20%, -20%) rotate(360deg); }
+  to { transform: translate(-10%, -10%) rotate(0deg); }
+}
+
+/* ================= 3D CARD SYSTEM ================= */
+
+.resume-card {
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  will-change: transform;
+}
+
+.resume-card-inner {
+  transition: transform 0.2s ease;
+  transform-style: preserve-3d;
+}
+
+/* glow on hover */
+.resume-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle at var(--mouse-x) var(--mouse-y),
+    rgba(99,102,241,0.15),
+    transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.resume-card:hover::after {
+  opacity: 1;
+}
+
+/* ================= FLOATING ANIMATION ================= */
+
+.float {
+  animation: floatCard 6s ease-in-out infinite;
+}
+
+@keyframes floatCard {
+  0%,100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+/* ================= SMOOTH PAGE ENTRY ================= */
+
+.fade-in {
+  animation: fadeInUp 0.8s ease forwards;
+}
+
+@keyframes fadeInUp {
   from {
     opacity: 0;
+    transform: translateY(30px);
   }
   to {
     opacity: 1;
+    transform: translateY(0);
   }
+}
+
+/* ================= GLASS INTENSITY BOOST ================= */
+
+.resume-card {
+  backdrop-filter: blur(25px);
+}
+
+.navbar {
+  backdrop-filter: blur(30px);
+}
+
+/* ================= LIGHT STREAK ================= */
+
+.light-streak {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(34,197,94,0.2), transparent 70%);
+  filter: blur(40px);
+  animation: streakMove 10s infinite linear;
+}
+
+@keyframes streakMove {
+  0% { transform: translate(-50%, -50%); }
+  50% { transform: translate(200%, 100%); }
+  100% { transform: translate(-50%, -50%); }
 }

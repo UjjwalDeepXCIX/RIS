@@ -124,6 +124,7 @@ export const AccordionHeader: React.FC<AccordionHeaderProps> = ({
             onClick={handleClick}
             className={`
         w-full px-4 py-3 text-left
+        hover:bg-white/5 rounded-xl
         focus:outline-none
         transition-colors duration-200 flex items-center justify-between cursor-pointer
         ${className}

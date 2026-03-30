@@ -19,7 +19,7 @@ const Navbar = () => {
 
       {/* Logo */}
       <Link to="/">
-        <p className="text-xl font-semibold text-gradient">RIS</p>
+        <p className="text-xl font-normal">RIS</p>
       </Link>
 
       {/* Actions */}
