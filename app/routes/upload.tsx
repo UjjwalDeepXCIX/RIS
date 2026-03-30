@@ -145,12 +145,12 @@ const handleAnalyze = async ({ companyName, jobTitle, jobDescription, file }: { 
     handleAnalyze({ companyName, jobTitle, jobDescription, file });
 }
     return (
-        <main className="bg-[url('/images/coolbackgrounds-gradient-astral.png')] bg-cover">
+        <main className="bg-[url('/images/uploader.svg')] bg-cover">
             <Navbar />
 
             <section className="main-section">
                 <div className="page-heading py-16">
-                    <h1>Smart feedback for your dream job</h1>
+                    <h1>AI Enabled Feedback</h1>
                     {isProcessing ? (
                         <>
                             <h2>{statusText}</h2>
@@ -160,26 +160,26 @@ const handleAnalyze = async ({ companyName, jobTitle, jobDescription, file }: { 
                         <h2>Drop your resume for an ATS score and improvement tips</h2>
                     )}
                     {!isProcessing && (
-                        <form id="upload-form" onSubmit={handleSubmit} className="flex flex-col gap-4 mt-8">
-                            <div className="form-div">
+                        <form id="upload-form" onSubmit={handleSubmit} className="flex flex-col gap-6 mt-10 w-full max-w-2xl backdrop-blur-xl bg-white/5 border border-white/10 p-8 rounded-2xl shadow-[0_20px_80px_rgba(0,0,0,0.6)]">
+                            <div className="form-div gap-2">
                                 <label htmlFor="company-name">Company Name</label>
                                 <input type="text" name="company-name" placeholder="Company Name" id="company-name" />
                             </div>
-                            <div className="form-div">
+                            <div className="form-div gap-2">
                                 <label htmlFor="job-title">Job Title</label>
                                 <input type="text" name="job-title" placeholder="Job Title" id="job-title" />
                             </div>
-                            <div className="form-div">
+                            <div className="form-div gap-2">
                                 <label htmlFor="job-description">Job Description</label>
                                 <textarea rows={5} name="job-description" placeholder="Job Description" id="job-description" />
                             </div>
 
-                            <div className="form-div">
+                            <div className="form-div gap-2">
                                 <label htmlFor="uploader">Upload Resume</label>
                                 <FileUploader onFileSelect={handleFileSelect} />
                             </div>
 
-                            <button className="primary-button" type="submit">
+                            <button className="primary-button w-full py-3 text-base font-semibold" type="submit">
                                 Analyze Resume
                             </button>
                         </form>

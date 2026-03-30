@@ -58,7 +58,7 @@ export default function Home() {
     loadResumes()
   }, []);
 
-  return <main className="bg-[url('/images/coolbackgrounds-gradient-cucumber.png')] bg-cover">
+  return <main className="bg-[url('/images/bg-main.svg')] bg-cover">
     <Navbar />
 
     <section className="main-section">

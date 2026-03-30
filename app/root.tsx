@@ -27,9 +27,20 @@ export const links: Route.LinksFunction = () => [
 
 export function Layout({ children }: { children: React.ReactNode }) {
   const { init } = usePuterStore();
-  useEffect(()=>{
-    init() 
-  }, [init])
+  useEffect(() => {
+  init();
+
+  const handleMouseMove = (e: MouseEvent) => {
+    document.documentElement.style.setProperty("--mouse-x", `${e.clientX}px`);
+    document.documentElement.style.setProperty("--mouse-y", `${e.clientY}px`);
+  };
+
+  window.addEventListener("mousemove", handleMouseMove);
+
+  return () => {
+    window.removeEventListener("mousemove", handleMouseMove);
+  };
+}, [init]);
   return (
     <html lang="en">
       <head>
@@ -39,6 +50,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
+        <div className="neural-bg" />   {/* ADD THIS */}
         <script src="https://js.puter.com/v2/"></script>
         {children}
         <ScrollRestoration />
