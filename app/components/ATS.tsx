@@ -2,7 +2,7 @@ import React from 'react'
 
 interface Suggestion {
   type: "good" | "improve";
-  tip: string;
+  tip: Text;
 }
 
 interface ATSProps {
