@@ -20,33 +20,46 @@ const Auth = () => {
 
     return (
         <main className="bg-[url('/images/bg-auth.svg')] min-h-screen flex items-center justify-center">
-            <div className="gradient-border shadow-lg">
-                <section className="flex flex-col gap-8 bg-white rounded-2xl p-10">
-                    <div className="flex flex-col items-center gap-2 text-center">
-                        <h1>Welcome</h1>
-                        <h2>Log In to Continue Your Job Journey</h2>
-                    </div>
-                    <div>
-                        {isLoading ? (
-                            <button className="auth-button animate-pulse">
-                                <p>Signing you in...</p>
-                            </button>
-                        ) : (
-                            <>
-                                {auth.isAuthenticated ? (
-                                    <button className="auth-button" onClick={auth.signOut}>
-                                        <p>Log Out</p>
-                                    </button>
-                                ) : (
-                                    <button className="auth-button" onClick={auth.signIn}>
-                                        <p>Log In</p>
-                                    </button>
-                                )}
-                            </>
-                        )}
-                    </div>
-                </section>
-            </div>
+            <div className="absolute top-10 flex flex-col items-center gap-2">
+    <h1 className="text-4xl md:text-5xl font-semibold tracking-tight bg-linear-to-r from-indigo-300 via-blue-300 to-emerald-300 bg-clip-text text-transparent">
+      RIS
+    </h1>
+    <div className="w-32 h-10 bg-emerald-400/20 blur-3xl rounded-full" />
+
+  <p className="text-sm text-gray-400">Resume Intelligence System</p>
+  </div>
+
+  {/* 🔥 AUTH CARD */}
+  <div className="w-full max-w-md backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl p-10 shadow-[0_20px_80px_rgba(0,0,0,0.7)] flex flex-col gap-8">
+
+    <div className="flex flex-col items-center gap-2 text-center">
+      <h2 className="text-2xl font-semibold text-white">Welcome Back</h2>
+      <p className="text-sm text-gray-400">
+        Log in to continue your journey
+      </p>
+    </div>
+
+    <div>
+      {isLoading ? (
+        <button className="auth-button animate-pulse w-full">
+          Signing you in...
+        </button>
+      ) : (
+        <>
+          {auth.isAuthenticated ? (
+            <button className="primary-button w-full" onClick={auth.signOut}>
+              Log Out
+            </button>
+          ) : (
+            <button className="primary-button w-full" onClick={auth.signIn}>
+              Log In
+            </button>
+          )}
+        </>
+      )}
+    </div>
+
+  </div>
         </main>
     )
 }

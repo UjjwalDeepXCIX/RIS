@@ -19,7 +19,7 @@ const Upload = () => {
         setFile(file)
     }
 
-const handleAnalyze = async ({ companyName, jobTitle, jobDescription, file }: { companyName: string, jobTitle: string, jobDescription: string, file: File  }) => {
+const handleAnalyze = async ({ companyName, jobTitle, jobDescription,  jobLink, file }: { companyName: string, jobTitle: string, jobDescription: string, jobLink?: string, file: File  }) => {
     try {
         console.log("[Upload] Starting analysis", { companyName, jobTitle });
 
@@ -65,6 +65,7 @@ const handleAnalyze = async ({ companyName, jobTitle, jobDescription, file }: { 
             imagePath: uploadedImage.path,
             companyName, jobTitle, jobDescription,
             feedback: '',
+            jobLink: jobLink || ""
         }
 
         await kv.set(`resume:${uuid}`, JSON.stringify(data));
@@ -134,6 +135,8 @@ const handleAnalyze = async ({ companyName, jobTitle, jobDescription, file }: { 
     const companyName = formData.get('company-name') as string;
     const jobTitle = formData.get('job-title') as string;
     const jobDescription = formData.get('job-description') as string;
+    const jobLink = formData.get('job-link') as string;
+    
 
     console.log("[Upload] Form data:", { companyName, jobTitle });
 
@@ -142,7 +145,7 @@ const handleAnalyze = async ({ companyName, jobTitle, jobDescription, file }: { 
         return;
     }
 
-    handleAnalyze({ companyName, jobTitle, jobDescription, file });
+    handleAnalyze({ companyName, jobTitle, jobDescription, jobLink, file });
 }
     return (
         <main className="bg-[url('/images/uploader.svg')] bg-cover">
@@ -150,7 +153,7 @@ const handleAnalyze = async ({ companyName, jobTitle, jobDescription, file }: { 
 
             <section className="main-section">
                 <div className="page-heading py-16">
-                    <h1>AI Enabled Feedback</h1>
+                    <h1>AI Enabled Feedbackblob</h1>
                     {isProcessing ? (
                         <>
                             <h2>{statusText}</h2>
@@ -172,6 +175,15 @@ const handleAnalyze = async ({ companyName, jobTitle, jobDescription, file }: { 
                             <div className="form-div gap-2">
                                 <label htmlFor="job-description">Job Description</label>
                                 <textarea rows={5} name="job-description" placeholder="Job Description" id="job-description" />
+                            </div>
+                            <div className="form-div gap-2">
+                            <label htmlFor="job-link">Job Link (optional)</label>
+                            <input
+                                type="url"
+                                name="job-link"
+                                placeholder="Paste job posting link (optional)"
+                                id="job-link"
+                            />
                             </div>
 
                             <div className="form-div gap-2">

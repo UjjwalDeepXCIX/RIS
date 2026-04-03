@@ -1,127 +1,34 @@
-export const resumes: Resume[] = [
-  {
-    id: "1",
-    companyName: "Google",
-    jobTitle: "Frontend Developer",
-    imagePath: "/images/resume-1.png",
-    resumePath: "/resumes/resume-1.pdf",
-    feedback: {
-      overallScore: 85,
-      ATS: {
-        score: 90,
-        tips: [],
-      },
-      toneAndStyle: {
-        score: 90,
-        tips: [],
-      },
-      content: {
-        score: 90,
-        tips: [],
-      },
-      structure: {
-        score: 90,
-        tips: [],
-      },
-      skills: {
-        score: 90,
-        tips: [],
-      },
-    },
-  },
-  {
-    id: "2",
-    companyName: "Microsoft",
-    jobTitle: "Cloud Engineer",
-    imagePath: "/images/resume-2.png",
-    resumePath: "/resumes/resume-2.pdf",
-    feedback: {
-      overallScore: 55,
-      ATS: {
-        score: 90,
-        tips: [],
-      },
-      toneAndStyle: {
-        score: 90,
-        tips: [],
-      },
-      content: {
-        score: 90,
-        tips: [],
-      },
-      structure: {
-        score: 90,
-        tips: [],
-      },
-      skills: {
-        score: 90,
-        tips: [],
-      },
-    },
-  },
-  {
-    id: "3",
-    companyName: "Apple",
-    jobTitle: "iOS Developer",
-    imagePath: "/images/resume-3.png",
-    resumePath: "/resumes/resume-3.pdf",
-    feedback: {
-      overallScore: 75,
-      ATS: {
-        score: 90,
-        tips: [],
-      },
-      toneAndStyle: {
-        score: 90,
-        tips: [],
-      },
-      content: {
-        score: 90,
-        tips: [],
-      },
-      structure: {
-        score: 90,
-        tips: [],
-      },
-      skills: {
-        score: 90,
-        tips: [],
-      },
-    },
-  },
-];
-
 export const AIResponseFormat = `
 {
-  "overallScore": number,
+  "overallScore": 0,
   "ATS": {
-    "score": number,
+    "score": 0,
     "tips": [
-      { "type": "good" | "improve", "tip": string }
+      { "type": "good", "tip": "" }
     ]
   },
   "toneAndStyle": {
-    "score": number,
+    "score": 0,
     "tips": [
-      { "type": "good" | "improve", "tip": string, "explanation": string }
+      { "type": "good", "tip": "", "explanation": "" }
     ]
   },
   "content": {
-    "score": number,
+    "score": 0,
     "tips": [
-      { "type": "good" | "improve", "tip": string, "explanation": string }
+      { "type": "good", "tip": "", "explanation": "" }
     ]
   },
   "structure": {
-    "score": number,
+    "score": 0,
     "tips": [
-      { "type": "good" | "improve", "tip": string, "explanation": string }
+      { "type": "good", "tip": "", "explanation": "" }
     ]
   },
   "skills": {
-    "score": number,
+    "score": 0,
     "tips": [
-      { "type": "good" | "improve", "tip": string, "explanation": string }
+      { "type": "good", "tip": "", "explanation": "" }
     ]
   }
 }
@@ -135,31 +42,43 @@ export const prepareInstructions = ({
   jobDescription: string;
   AIResponseFormat: string;
 }) =>
-  `
+`
 You are an expert ATS resume reviewer.
 
-Analyze the resume and return ONLY a valid JSON object.
+Your task is to analyze the resume and return STRICTLY a JSON object.
 
-IMPORTANT RULES:
-- DO NOT return "rating"
-- DO NOT return "analysis"
-- DO NOT return explanations outside JSON
-- DO NOT add backticks
-- FOLLOW the exact structure below
+⚠️ CRITICAL RULES:
+- Output MUST be valid JSON
+- DO NOT include any text before or after JSON
+- DO NOT include explanations outside JSON
+- DO NOT include markdown (no backticks)
+- DO NOT change the structure
 - ALL scores must be between 0 and 100
+- You MUST NOT return "sections" array.
+- You MUST return keys EXACTLY as:
+- ATS, toneAndStyle, content, structure, skills
 
-Return EXACTLY this format:
+---
 
+### REQUIRED OUTPUT FORMAT:
 ${AIResponseFormat}
 
-Guidelines:
-- Give honest scores (low if bad)
-- Each section MUST include:
-  - score
-  - 3–4 tips
-- Tips must be concise but useful
-- Use "good" or "improve" correctly
+---
 
+### INSTRUCTIONS:
+- Provide realistic scoring
+- Each section must have 3–4 tips
+- Use "good" for strengths and "improve" for weaknesses
+- Keep tips concise and actionable
+
+---
+
+### CONTEXT:
 Job Title: ${jobTitle}
 Job Description: ${jobDescription}
+
+---
+
+### FINAL REMINDER:
+Return ONLY the JSON object. Nothing else.
 `;
