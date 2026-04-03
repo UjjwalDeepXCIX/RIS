@@ -56,10 +56,24 @@ const Resume = () => {
             // ✅ universal mapper (handles both formats)
             const mapSection = (section: any) => ({
             score: section?.score ?? 0,
-            tips: (section?.tips || []).map((tip: any) => ({
+            tips: (section?.tips || []).map((tip: any) => {
+                
+                // ✅ CASE 1: tip is string
+                if (typeof tip === "string") {
+                const lower = tip.toLowerCase();
+
+                return {
+                    type: lower.startsWith("good") ? "good" : "improve",
+                    tip: tip.replace(/^good:\s*|^improve:\s*/i, ""), // clean prefix
+                };
+                }
+
+                // ✅ CASE 2: tip is object
+                return {
                 type: tip.type || "improve",
-                tip: tip.text || tip.tip || "",// handles both formats
-            })),
+                tip: tip.tip || tip.text || "",
+                };
+            }),
             });
 
             let normalizedFeedback: Feedback;
