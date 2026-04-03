@@ -189,7 +189,7 @@ This project focuses not just on using AI, but on **controlling, structuring, an
 ## 🧑‍💻 Getting Started
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/UjjwalDeepXCIX/RIS.git
 cd ris
 npm install
 npm run dev
