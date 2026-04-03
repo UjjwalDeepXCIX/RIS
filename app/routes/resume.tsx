@@ -7,8 +7,8 @@ import Details from "~/components/Details";
 import Navbar from "~/components/Navbar";
 
 export const meta = () => ([
-    { title: 'Resumind | Review ' },
-    { name: 'description', content: 'Detailed overview of your resume' },
+    { title: 'RIS | Review ' },
+    { name: 'description', content: 'Insights on your Applicaiton & Resume' },
 ])
 
 const Resume = () => {
