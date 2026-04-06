@@ -63,7 +63,9 @@ export default function Home() {
 
     <section className="main-section">
       <div className="page-heading py-16">
-        <h1>Your Applications</h1> <h3>tap to gain smart insights</h3>
+        <h1 className="text-lg md:text-xl font-semibold 
+    bg-linear-to-r from-stone-800 via-teal-700 to-gray-300 
+    bg-clip-text text-transparent">Your Applications</h1> <h3>tap to gain smart insights</h3>
         {!loadingResumes && resumes?.length === 0 ? (
             <h2>No resumes found. Upload your first resume to get feedback.</h2>
         ): (
