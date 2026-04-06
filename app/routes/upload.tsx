@@ -153,7 +153,7 @@ const handleAnalyze = async ({ companyName, jobTitle, jobDescription,  jobLink, 
 
             <section className="main-section">
                 <div className="page-heading py-16">
-                    <h1>AI Enabled Feedbackblob</h1>
+                    <h1>AI Enabled Feedback</h1>
                     {isProcessing ? (
                         <>
                             <h2>{statusText}</h2>
